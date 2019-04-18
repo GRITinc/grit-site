@@ -1,0 +1,7 @@
+development:
+  password: 4ff3a7ae7e3a5dbdf294ee7d6584be95
+  theme_id: "37749981297"
+  store: grit-superfoods.myshopify.com
+production:
+  theme_id: live
+  store: your-shop.myshopify.com

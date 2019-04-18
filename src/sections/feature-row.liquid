@@ -5,14 +5,45 @@
 {% endif %}
 
 <style>
-.index-section--image-with-text:nth-of-type(odd) .feature-row__text {
-	background-color: #292929;
-  	color: #e0463e;
+.index-section--image-with-text {
+  color: #fff;
+  .feature-row__heading {
+    filter: saturate(4);
+    &::before {
+      mix-blend-mode: difference;
+    }
+  }
+.index-section--image-with-text:nth-of-type(3) {  
+  .feature-row__heading::before {
+    background-color: #2C3E50;
+  }
 }
-.index-section--image-with-text:nth-of-type(even) .feature-row__text {
- 	//background-color: cornsilk;
-  	background-color: #292929;
-  	color: #e0463e;
+.index-section--image-with-text:nth-of-type(4) {
+}
+.index-section--image-with-text:nth-of-type(5) {
+  	color: #FC4348;
+    .feature-row__heading::before {
+      background-color: #2C3E50;
+    }
+}
+.index-section--image-with-text:nth-of-type(6) {
+  .feature-row__heading::before {
+  	background-color: #2C3E50;
+    mix-blend-mode: color-dodge;
+  }
+}
+.index-section--image-with-text:nth-of-type(7) {
+  color: #e0463e;
+  .feature-row__heading::before {
+    mix-blend-mode: color-dodge;
+  }
+}
+.index-section--image-with-text:nth-of-type(8) {
+  color: #fff;
+   .feature-row__heading::before {
+     filter: saturate(10);
+    mix-blend-mode: color-dodge;
+  }
 }
 .index-section--image-with-text .feature-row__image {
   	width: 100%;
