@@ -47,7 +47,7 @@
         of the image by using 'padding-top'.
         {% endcomment %}
         <div class="product__image-container {% unless featured_image == image %} hide{% endunless %}" style="max-width: {{ max_width }}px" data-id="{{ image.id }}" data-variant-image-toggle-hide>
-          <a class="product__image-wrapper product-slideshow__open" href="{{ featured_image | img_url: 'master' }}" style="padding-top:{{ 1 | divided_by: image.aspect_ratio | times: 100}}%" aria-label="{{ 'sections.product_template.open_image_slideshow' | t }}" data-id="{{ image.id }}">
+          <a class="product__image-wrapper slideshow-modal-toggle" style="padding-top:{{ 1 | divided_by: image.aspect_ratio | times: 100}}%" aria-label="{{ 'sections.product_template.open_image_slideshow' | t }}" data-id="{{ image.id }}">
 
             {% comment %}
             Only give the visible variant image a src so that it shows an image
@@ -68,7 +68,6 @@
       {% endif %}
     {% endfor %}
   </div>
-
   {% comment %}
   ------------------------------------------------------------------------------
   Product Form & Description
@@ -82,7 +81,8 @@
         <link itemprop="availability" href="http://schema.org/{% if current_variant.available %}InStock{% else %}OutOfStock{% endif %}">
 
         {% include 'product-form' %}
-
+        
+		{% include 'fire-message' %}
         {% if section.settings.show_share_buttons %}
         {% if settings.share_facebook or settings.share_twitter or settings.share_pinterest %}
         {% comment %}
@@ -94,6 +94,7 @@
         {% endcomment %}
         {% endif %}
         {% endif %}
+        
       </div>
     </div>
     {{ product.description }}
@@ -206,6 +207,41 @@
           </div>
         {% endunless %}
       </div>
+    </div>
+    <div class="modal slideshow">
+      <div class="modal-overlay modal-toggle"></div>
+      <div class="modal-wrapper modal-transition"><button class="modal-close modal-toggle gold">×</button>
+      <div class="modal-body" data-content="Swipe for more photos">
+        <div class="modal-content">
+        <div class="product__image-container style="max-width: {{ max_width }}px" data-id="{{ image.id }}" >
+          {% comment %}
+          Only give the visible variant image a src so that it shows an image
+          as quickly as possible. Let lazysizes.js load in the other images when
+          they become visible.
+          {% endcomment %}
+          {% assign img_url = image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+          {% for image in product.images %}
+            <div class="img-holder">
+              <img class="product__image lazyload"
+                {% if featured_image == image %}src="{{ image | img_url: '900x'}}"{% endif %}
+                src="{{ image | img_url: '900x'}}
+                data-src="{{ img_url }}"
+                data-widths="[360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+                data-aspectratio="{{ image.aspect_ratio }}"
+                data-sizes="auto"
+                alt="{{ image.alt | escape }}"
+                data-variant-image>
+            </div>
+          {% endfor %}
+        </div>
+        {% comment %}
+        <a class="prev"></a>
+        <a class="next"></a>
+        {% endcomment %}
+        <div class="swipe-notice">Swipe for more photos</div>
+      </div>
+    </div>
+    </div>
     </div>
   {% endunless %}
  {% if product.options.size == 1 %}
