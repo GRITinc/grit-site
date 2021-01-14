@@ -1,0 +1,191 @@
+{% if
+  template.name == 'blog'
+  or template.name == 'collection'
+  or template.name == 'list-collections'
+  or template.name == 'search'
+%}
+  {%- assign hide_footer = true -%}
+{% endif %}
+
+<!doctype html>
+<!--[if IE 9]> <html class="ie9 supports-no-js{% if hide_footer %} site-footer--hidden{% endif %}" lang="{{ shop.locale }}"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="supports-no-js {% if hide_footer %} site-footer--hidden{% endif %}" lang="{{ shop.locale }}"> <!--<![endif]-->
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-130914546-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-130914546-2');
+  </script> 
+  <script>
+    <!-- Hotjar Tracking Code for gritsuperfoods.com -->
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:2005545,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+  </script>
+  
+
+  <style>
+  main#MainContent {
+    margin-bottom: 0px !important;
+}
+  </style>  
+  
+  <meta charset="utf-8">
+  <!--[if IE 9]><meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1"><![endif]-->
+  <!--[if (gt IE 9)|!(IE)]><!--><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><!--<![endif]-->
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <!--<meta name="theme-color" content="{{ settings.color_primary }}">-->
+  <meta name="theme-color" content="#000" />
+  <meta name="robots" content="INDEX,FOLLOW">
+  <link rel="canonical" href="{{ canonical_url }}">
+
+  {% if settings.favicon != blank %}
+    <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+  {% endif %}
+
+  <title>
+    {{ page_title }}{% if current_tags %}{% assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+  </title>
+
+  {% if page_description %}
+    <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+
+  {% include 'social-meta-tags' %}
+
+  {% render 'header-scripts.zipifypages', renderctx: 'thm' %}{{ content_for_header }}
+
+  {% include 'critical-css' %}
+  {% include 'load-css' %}
+
+  <script>
+    var theme = {
+      stylesheet: "{{ 'theme.scss.css' | asset_url }}",
+      strings: {
+        addToCart: {{ 'products.product.add_to_cart' | t | json }},
+        soldOut: {{ 'products.product.sold_out' | t | json }},
+        unavailable: {{ 'products.product.unavailable' | t | json }},
+        addItemSuccess: {{ 'products.product.item_added_to_cart' | t | json }},
+        cartError: {{ 'cart.general.cart_error' | t | json }},
+        cartQuantityError: {{ 'cart.general.cart_quantity_error_html' | t: quantity: "[quantity]", title: "[title]" | json }},
+        newsletter: {
+          blankError: {{ 'general.newsletter_form.blank_error' | t | json }},
+          invalidError: {{ 'general.newsletter_form.invalid_error' | t | json }}
+        },
+        map: {
+          zeroResults: {{ 'sections.map.address_no_results' | t | json }},
+          overQueryLimit: {{ 'sections.map.address_query_limit_html' | t | json }},
+          authError: {{ 'sections.map.auth_error_html' | t | json }},
+          addressError: {{ 'sections.map.address_error' | t | json }}
+        }
+      },
+      isOnline: true,
+      moneyFormat: {{ shop.money_format | json }},
+      mediaQuerySmall: 750,
+      mediaQueryMedium: 990
+    };
+
+    {% if template.directory == 'customers' %}
+      theme.countryOptionTags = {{ all_country_option_tags | json}};
+    {% endif %}
+
+    document.documentElement.className = document.documentElement.className.replace('supports-no-js', '');
+  </script>
+  <link rel="stylesheet" href="https://sdks.shopifycdn.com/polaris/2.12.1/polaris.min.css" />
+  <link type="text/css" href="{{ 'custom-styles.scss.css' | asset_url }}" rel="stylesheet">
+
+  <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+  <!--[if lte IE 9]><script src="{{ 'polyfills.js' | asset_url }}"></script><![endif]-->
+
+  <!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'lazysizes.min.js' | asset_url }}" async="async"></script><!--<![endif]-->
+  <!--[if lte IE 9]><script src="{{ 'lazysizes.min.js' | asset_url }}"></script><![endif]-->
+
+  <!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'theme.min.js' | asset_url }}" defer="defer"></script><!--<![endif]-->
+  <!--[if lte IE 9]><script src="{{ 'theme.min.js' | asset_url }}"></script><![endif]-->
+
+  <script src="{{ 'stickybits.js' | asset_url }}"></script>
+  <script id="driftwidget" type="text/javascript"></script>
+  <script type="text/javascript">
+    window.smartlook||(function(d) {
+    var o=smartlook=function(){ o.api.push(arguments)},h=d.getElementsByTagName('head')[0];
+    var c=d.createElement('script');o.api=new Array();c.async=true;c.type='text/javascript';
+    c.charset='utf-8';c.src='https://rec.smartlook.com/recorder.js';h.appendChild(c);
+    })(document);
+    smartlook('init', '5d2ae56b6f3842ece1a066f58f7a32b6ee2295c5');
+  </script>
+  
+<!-- Yotpo JavaScript -->
+<script type="text/javascript">
+(function e(){var e=document.createElement("script");e.type="text/javascript",e.async=true,e.src="//staticw2.yotpo.com/R97kXeUMERNUlvTQxKptguDSUVfbb68lLMzJq8BW/widget.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)})();
+</script> 
+<!-- End of Yotpo JavaScript -->   
+ 
+ <meta name="keywords" content="healthy snacks,
+healthy snack,
+high protein foods,
+rejuvenation,
+protein snacks,
+healthy snacks to buy,
+high protein diet,
+protein diet,
+best healthy snacks,
+super foods,
+energy balls,
+healthy snacks for kids,
+high protein snacks,
+protein foods,
+healthy protein snacks,
+energy boosters,
+energy bites,
+best superfoods,
+protein bites,
+protein balls,
+energy boost supplement,
+lemon cookies,
+protein energy balls,
+chocolate protein balls,
+chocolate balls,
+lemon bites,
+lemon protein bars,
+protein balls for kids,
+healthy balls,
+lemon balls
+"/> 
+  
+</head>
+
+<body id="grit-superfoods" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | split: '.' | first | handle }} data-animations">
+
+<!-- <body id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | split: '.' | first | handle }} data-animations"> -->
+
+  <a class="in-page-link visually-hidden skip-link" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
+
+  {% section 'header' %}
+
+  <div class="main-content" data-drawer-push>
+    <div class="main-content__wrapper">
+
+      <main class="content-for-layout" id="MainContent" role="main">
+        {{ content_for_layout }}
+      </main>
+
+      {% section 'footer' %}
+    </div>
+  </div>
+	
+  {% include 'cart-drawer' %}
+  {% comment %}
+  {% include 'ajaxify-cart' %}
+  {% endcomment %}
+{% include 'banana-stand-footer' %}
+  <!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'custom.js' | asset_url }}" defer="defer"></script><!--<![endif]-->
+{% render 'page-footer.zipifypages', renderctx: 'thm', ocuapp: ocuapp %}</body>
+</html>

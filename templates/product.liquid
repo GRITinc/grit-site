@@ -1,0 +1,81 @@
+{% include 'product-content.zipifypages', contentprt: 'header' %}{% comment %}
+  The contents of the product.liquid template can be found in /sections/product-template/
+{% section 'gallery' %}
+{% section 'custom-blocks-4' %}
+{% section 'feature-row' %}
+{% section 'custom-blocks' %}
+{% section 'custom-blocks-1' %}
+{% section 'custom-blocks-2' %}
+{% section 'custom-blocks-3' %}
+{% section 'custom-blocks-5' %}
+{% endcomment %}
+
+{% section 'product-template' %}
+
+<!-- Yotpo - Reviews Widget --> 
+<link type="text/css" href="{{ 'yotpo-styles.scss.css' | asset_url }}" rel="stylesheet">
+<div style = "margin-bottom: 300px">
+<div class="yotpo yotpo-main-widget" 
+     id="yotpo-container"
+ data-product-id="{{ product.id }}"
+ data-price="{{ variant.price | money_without_currency }}"
+ data-currency="{{ shop.currency }}" 
+ data-name="{{ product.title | escape }}" 
+ data-url="{{ shop.url }}{{ product.url }}" 
+ data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}" 
+ data-description="{{ product.description | escape }}">
+{%- assign yotpo_offload_content = shop.metafields.yotpo.yotpo_offload_content %}
+  {%- assign time_now = 'now' | date: '%s' %}
+  {%- assign yotpo_live_time = shop.metafields.yotpo.yotpo_live | date: '%s' %}
+  {%- assign diff_seconds_from_live = time_now | minus: yotpo_live_time %}
+  {%- assign yotpo_main_widget_last_updated = product.metafields.yotpo.main_widget_update_time | date: '%s' %}
+  {%- assign diff_seconds_from_last_main_widget_update = time_now | minus: yotpo_main_widget_last_updated %}
+  {%- if yotpo_live_time and diff_seconds_from_live < 86400 or yotpo_main_widget_last_updated and diff_seconds_from_last_main_widget_update < 86400 -%}
+    {%- assign yotpo_main_widget_obsolete = false %}
+  {%- else %}
+    {%- assign yotpo_main_widget_obsolete = true %}
+  {%- endif %}
+  {%- if yotpo_offload_content == 'yes' and yotpo_main_widget_obsolete != true -%}
+    {%- for field in product.metafields.yotpo_reviews -%}
+      {{ field | last }}
+    {%- endfor -%}
+  {%- endif %}
+</div></div>
+<!--  End of Yotpo - Reviews Widget --> 
+ <script type="text/javascript">
+  document.getElementById('pdp-performance').src= '{{ 'pdp-performance.js' | asset_url }}';
+</script>
+<script type="text/javascript">
+  document.getElementById('driftwidget').src= '{{ 'drift.js' | asset_url }}';
+</script>
+
+
+<script text="text/javascript">
+  var _learnq = _learnq || [];
+
+  var item = {
+    Name: {{ product.title|json }},
+    ProductID: {{ product.id|json }},
+    Categories: {{ product.collections|map:'title'|json }},
+    ImageURL: "https:{{ product.featured_image.src|img_url:'grande' }}",
+    URL: "{{ shop.secure_url }}{{ product.url }}",
+    Brand: {{ product.vendor|json }},
+    Price: {{ product.price|money|json }},
+    CompareAtPrice: {{ product.compare_at_price_max|money|json }}
+  };
+
+  _learnq.push(['track', 'Viewed Product', item]);
+  _learnq.push(['trackViewedItem', {
+    Title: item.Name,
+    ItemId: item.ProductID,
+    Categories: item.Categories,
+    ImageUrl: item.ImageURL,
+    Url: item.URL,
+    Metadata: {
+      Brand: item.Brand,
+      Price: item.Price,
+      CompareAtPrice: item.CompareAtPrice
+    }
+  }]);
+</script>
+{% include 'product-content.zipifypages', contentprt: 'footer' %}

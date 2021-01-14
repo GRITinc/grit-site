@@ -1,0 +1,55 @@
+$white: #F1F1F1;
+$gold: #dc9e23;
+$black: #000;
+#yotpo-container,
+.yotpo.yotpo-main-widget {
+  background: $black;
+  padding: 0 5%;
+  
+  .yotpo-small-box,
+  .yotpo-review.yotpo-regular-box,
+  .yotpo-regular-box {
+    border: none;
+  }
+  
+  .yotpo-default-button.write-review-button,
+  .yotpo-default-button.write-first-review-button,
+  .primary-color-btn,
+  input[type="button"].primary-color-btn,
+  .social-link.popup-link,
+  .yotpo-submit {
+    background: $black;
+    border: $white solid 2px;
+    border-radius: 2px;
+    color: $white;
+	margin-top: -5px;
+    &.write-button, &:hover {
+     border-color: $gold;
+    }
+  }
+  
+  .yotpo-thank-you {
+   background: $black; 
+   border: none;
+  }
+  
+  .yotpo-bottomline.yotpo-bottomline-2-boxes {
+    border-color: $white;
+    color: $white;
+  }
+  .yotpo-icon-btn.yotpo-icon-button-text, 
+  .yotpo-modal-dialog.yotpo-icon-btn.yotpo-icon-button-text {
+    color: $white;
+  }
+  
+  .form-group.form-element.y-input,
+  .write-review-wrapper.write-form,
+  .y-label,
+  #write-review-tabpanel .yotpo.write-review,
+  .yotpo-header .y-label.yotpo-header-title{
+  	  border-color: $white;
+      color: $white;
+  }
+  
+}
+  
